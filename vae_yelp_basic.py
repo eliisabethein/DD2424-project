@@ -99,9 +99,9 @@ epochs = 50
 vae = VAE(hidden_size, num_layers, embedding_weights, latent_size, max_sentence_length, device, synthetic=True).to(device)
 
 total_epoch_losses, total_kl_losses, total_mi, val_total_epoch_losses, val_total_kl_losses, val_total_mi = util.train(
-        vae, yelp_train_inputs, yelp_train_targets, yelp_val_inputs, yelp_val_targets, 
-        epochs, vocabulary_size, hidden_size, latent_size, max_sentence_length, device, 
-        yelp_train_lengths, yelp_test_lengths, learning_rate=learning_rate,
+        vae, yelp_train_inputs, yelp_train_targets, yelp_val_inputs, yelp_val_targets,
+        epochs, vocabulary_size, hidden_size, latent_size, max_sentence_length, device,
+        yelp_train_lengths, yelp_val_lengths, learning_rate=learning_rate,
         synthetic=False, step=step, tracked_inputs=None, tracked_targets=None, verbose=True)
 
 pickle.dump(total_epoch_losses, open("results-vae-basic-32/yelp_total_epoch_losses_vae_basic_32.pkl", "wb"))

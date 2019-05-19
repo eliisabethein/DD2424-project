@@ -28,12 +28,12 @@ import requests
 
 nltk.download('punkt')
 
-# if torch.cuda.is_available():
-#     print("Using CUDA")
-#     device = torch.device('cuda:0')
-# else:
-#     print("Using CPU")
-device = torch.device('cpu')
+if torch.cuda.is_available():
+    print("Using CUDA")
+    device = torch.device('cuda:0')
+else:
+    print("Using CPU")
+    device = torch.device('cpu')
 
 if not os.path.exists("results-baseline"):
     os.mkdir("results-baseline")
@@ -92,14 +92,14 @@ yelp_val_inputs, yelp_val_targets, yelp_val_lengths = \
 hidden_size = 1024
 num_layers = 1
 learning_rate = 0.001
-epochs = 3
+epochs = 50
 
 baseline_model = Baseline(hidden_size, num_layers, embedding_weights, max_sentence_length, device, synthetic=True).to(device)
 
 verbose_level = 2
 
-total_epoch_losses, val_total_epoch_losses = util.train_baseline(baseline_model, yelp_train_inputs[:10], yelp_train_targets[:10], yelp_val_inputs[:10],
-                yelp_val_targets[:10], epochs, vocabulary_size, hidden_size, max_sentence_length,
+total_epoch_losses, val_total_epoch_losses = util.train_baseline(baseline_model, yelp_train_inputs, yelp_train_targets, yelp_val_inputs,
+                yelp_val_targets, epochs, vocabulary_size, hidden_size, max_sentence_length,
                 learning_rate=learning_rate, synthetic=True, verbose_level=verbose_level)
 
 

@@ -345,7 +345,7 @@ class Util:
             loss_summary = self.loss_function(outputs, y, mean, log_variance, max_sentence_length,  device, annealing_args=annealing_args, mask=mask)
 
             loss_rc = np.sum(loss_summary[1].cpu().data.numpy())
-            loss_kl = np.sum(loss_summary[3].cpu().data.numpy())
+            loss_kl = np.sum(loss_summary[2].cpu().data.numpy())
 
             ce_loss += loss_rc.item()
             kl_loss += loss_kl.item()
