@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 class Decoder(nn.Module):
-    def __init__(self,hidden_size, num_layers, embedding_weights, max_sentence_length, device, synthetic=False):
+    def __init__(self, hidden_size, num_layers, embedding_weights, max_sentence_length, device, synthetic=False):
         super(Decoder, self).__init__()
         # parameters
         self.vocabulary_size = embedding_weights.shape[0]
@@ -31,7 +31,7 @@ class Decoder(nn.Module):
 
         h, c = hidden
         hidden = (h.contiguous(), c.contiguous())
-        
+
         output, hidden = self.lstm(x.float(), hidden)
 
         if x_lens is not None and train:
