@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import numpy as np
 from encoder import Encoder, StochasticEncoder
 from decoder import Decoder, StochasticDecoder
 
@@ -47,11 +48,19 @@ class VAE(nn.Module):
         outputs = self.decode(hidden, x, x_lens)
         return mean, log_variance, outputs
 
+    def log_sum_exp(self, value, dim=None, keepdim=False):
+        if dim is not None:
+            m, _ = torch.max(value, dim=dim, keepdim=True)
+            value0 = value - m
+            if keepdim is False:
+                m = m.squeeze(dim)
+            return m + torch.log(torch.sum(torch.exp(value0), dim=dim, keepdim=keepdim))
+        else:
+            m = torch.max(value)
+            sum_exp = torch.sum(torch.exp(value - m))
+            return m + torch.log(sum_exp)
+
     def calc_mi(self, x):
-        """Approximate the mutual information between x and z
-        I(x, z) = E_xE_{q(z|x)}log(q(z|x)) - E_xE_{q(z|x)}log(q(z))
-        Returns: Float
-        """
         mean, log_variance, _ = self.forward(x)
         _, batch_size, _ = mean.size()
 
@@ -72,6 +81,6 @@ class VAE(nn.Module):
 
         # log q(z): aggregate posterior
         # [z_batch]
-        log_qz = log_sum_exp(log_density, dim=1) - np.log(batch_size)
+        log_qz = self.log_sum_exp(log_density, dim=1) - np.log(batch_size)
 
         return (neg_entropy - log_qz.mean(-1)).item()
