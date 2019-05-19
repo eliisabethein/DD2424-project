@@ -48,6 +48,12 @@ class VAE(nn.Module):
         outputs = self.decode(hidden, x, x_lens)
         return mean, log_variance, outputs
 
+    def get_z(self, x, x_lens=None):
+        hidden = self.encode(x, x_lens)
+        hidden_concatenated = torch.cat((hidden[0], hidden[1]), 2)
+        z, mean, log_variance = self.stochastic_encoder.forward(hidden_concatenated)
+        return z
+
     def log_sum_exp(self, value, dim=None, keepdim=False):
         if dim is not None:
             m, _ = torch.max(value, dim=dim, keepdim=True)

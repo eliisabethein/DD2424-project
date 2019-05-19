@@ -271,7 +271,7 @@ class Util:
 
             if is_aggressive:
                 vae.eval()
-                current_mi = calc_mi(vae, validation_inputs)
+                current_mi = self.calc_mi(vae, validation_inputs)
                 vae.train()
                 print('current_mi:', current_mi)
                 if current_mi - previous_mi < 0:
