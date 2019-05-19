@@ -98,7 +98,7 @@ epochs = 50
 
 vae = VAE(hidden_size, num_layers, embedding_weights, latent_size, max_sentence_length, device, synthetic=True).to(device)
 
-annealing_args = {'type':'logistic', 'step':0, 'k':0.0025, 'first_step':6 * 2500}
+annealing_args = {'type':'logistic', 'step':0, 'k':0.0025, 'first_step':2500}
 
 total_epoch_losses, total_kl_losses, total_mi, val_total_epoch_losses, val_total_kl_losses, val_total_mi = util.train(
         vae, yelp_train_inputs, yelp_train_targets, yelp_val_inputs, yelp_val_targets, 
