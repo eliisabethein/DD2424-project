@@ -93,7 +93,7 @@ hidden_size = 1024
 latent_size = 32
 num_layers = 1
 step = 0.25
-learning_rate = 0.005
+learning_rate = 0.001
 epochs = 50
 
 vae = VAE(hidden_size, num_layers, embedding_weights, latent_size, max_sentence_length, device, synthetic=True).to(device)
