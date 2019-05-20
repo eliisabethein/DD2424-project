@@ -99,8 +99,8 @@ baseline_model = Baseline(hidden_size, num_layers, embedding_weights, max_senten
 verbose_level = 2
 
 total_epoch_losses, val_total_epoch_losses = util.train_baseline(baseline_model, yelp_train_inputs, yelp_train_targets, yelp_val_inputs,
-                yelp_val_targets, epochs, vocabulary_size, hidden_size, max_sentence_length,
-                learning_rate=learning_rate, synthetic=True, verbose_level=verbose_level)
+                yelp_val_targets, epochs, vocabulary_size, hidden_size, max_sentence_length, yelp_train_lengths, yelp_val_lengths,
+                learning_rate=learning_rate, synthetic=False, verbose_level=verbose_level)
 
 
 pickle.dump(total_epoch_losses, open("results-baseline/yelp_total_epoch_losses_baseline.pkl", "wb"))
